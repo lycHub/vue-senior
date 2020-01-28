@@ -1,0 +1,23 @@
+{
+  "name": "vue-senior",
+  "version": "1.0.0",
+  "description": "vue component",
+  "main": "index.js",
+  "private": true,
+  "scripts": {
+    "start": "vue serve src/index.js"
+  },
+  "keywords": [
+    "vue"
+  ],
+  "author": "Madao",
+  "license": "ISC",
+  "devDependencies": {
+    "less": "^3.10.3",
+    "less-loader": "^5.0.0"
+  },
+  "dependencies": {
+    "amfe-flexible": "^2.2.1",
+    "async-validator": "^3.2.3"
+  }
+}

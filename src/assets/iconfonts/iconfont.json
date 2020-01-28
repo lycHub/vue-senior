@@ -1,0 +1,44 @@
+{
+  "id": "1469895",
+  "name": "zzc",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "580096",
+      "name": "help",
+      "font_class": "help-copy",
+      "unicode": "e641",
+      "unicode_decimal": 58945
+    },
+    {
+      "icon_id": "1181074",
+      "name": "tips_success",
+      "font_class": "tipssuccess",
+      "unicode": "e635",
+      "unicode_decimal": 58933
+    },
+    {
+      "icon_id": "1418248",
+      "name": "home",
+      "font_class": "home",
+      "unicode": "e61a",
+      "unicode_decimal": 58906
+    },
+    {
+      "icon_id": "5226514",
+      "name": "edit",
+      "font_class": "edit",
+      "unicode": "e615",
+      "unicode_decimal": 58901
+    },
+    {
+      "icon_id": "7408324",
+      "name": "loading",
+      "font_class": "loading",
+      "unicode": "e640",
+      "unicode_decimal": 58944
+    }
+  ]
+}

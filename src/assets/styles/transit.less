@@ -1,0 +1,40 @@
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .5s;
+}
+.fade-enter, .fade-leave-to {
+  opacity: 0;
+}
+
+.notice-enter-active {
+  animation: slideInRight .2s;
+}
+.notice-leave-active {
+  animation: slideInRight .4s reverse;  // reverse 反向执行动画，等于下面的slideOutRight
+  //animation: slideOutRight .3s;
+}
+
+
+
+@keyframes slideInRight {
+  from {
+    right: -2.6rem;
+    opacity: 0;
+  }
+  
+  to {
+    opacity: 1;
+    right: 0;
+  }
+}
+
+@keyframes slideOutRight {
+  from {
+    opacity: 1;
+    right: 0;
+  }
+  
+  to {
+    right: -2.6rem;
+    opacity: 0;
+  }
+}
