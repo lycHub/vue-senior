@@ -24,7 +24,7 @@
 </template>
 
 <script>
-  import {getEventTarget} from "./helper";
+  import {getEventTarget, getVelocity} from "./helper";
 
   export default {
     name: "Picker",
@@ -43,13 +43,14 @@
         startY: 0,
         currentY: 0,
         selectedIndex: 0,
-        diffY: 0,
+        differY: 0,
         maxLen: 0,
         len: 0,
         maxY: 0,
         lineHeight: 34,
         currentValue: [],
         selectTargets: [],  // 记录每一列的currentY
+        velocity: getVelocity()
       }
     },
     methods: {
@@ -77,9 +78,10 @@
       panmove(event) {
         if (this.isMouseDown) {
           // 上滑负数，下滑正
-          this.diffY = getEventTarget(event).clientY - this.startY;
+          this.differY = getEventTarget(event).clientY - this.startY;
+          this.velocity.record(this.differY);
           this.dom.style.transition = 'transform 0s';
-          this.dom.style.transform = `translateY(${this.currentY * this.lineHeight + this.diffY}px)`;
+          this.dom.style.transform = `translateY(${this.currentY * this.lineHeight + this.differY}px)`;
         }
       },
       panend(event) {
@@ -87,9 +89,14 @@
         event.preventDefault();
         const ev = getEventTarget(event);
         this.differY = ev.clientY - this.startY;
-        // console.log(this.differY);
-        const time = 0.3;
-        this.dom.style.transition = 'transform ' + time + 's';
+        let time = 0.3;
+        const velocityTemp = this.velocity.getVelocity(this.differY) * 5;
+        console.log('velocityTemp', velocityTemp);
+        if (velocityTemp) {
+          this.differY = velocityTemp * 50 + this.differY;  // 最钟的滑动距离
+          time = Math.abs(velocityTemp) * 0.1;
+        }
+        this.dom.style.transition = 'transform ' + Math.min(time, 0.3) + 's';
         if (this.differY <= -this.lineHeight / 2) { // 上滑距离大于this.lineHeight / 2时
           // 经过了几个item
           this.currentY += Math.floor(this.differY / this.lineHeight);
