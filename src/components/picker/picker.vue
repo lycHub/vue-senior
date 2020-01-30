@@ -90,10 +90,10 @@
         const ev = getEventTarget(event);
         this.differY = ev.clientY - this.startY;
         let time = 0.3;
-        const velocityTemp = this.velocity.getVelocity(this.differY) * 5;
+        const velocityTemp = this.velocity.getVelocity(this.differY) * 4;
         console.log('velocityTemp', velocityTemp);
         if (velocityTemp) {
-          this.differY = velocityTemp * 50 + this.differY;  // 最钟的滑动距离
+          this.differY = velocityTemp * 40 + this.differY;  // 最钟的滑动距离
           time = Math.abs(velocityTemp) * 0.1;
         }
         this.dom.style.transition = 'transform ' + Math.min(time, 0.3) + 's';
@@ -105,7 +105,7 @@
             this.currentY = this.maxY;
           }
         } else if (this.differY >= this.lineHeight / 2) { // 下拉距离大于this.lineHeight / 2时
-          this.currentY += Math.ceil(this.differY / this.lineHeight);
+          this.currentY += Math.floor(this.differY / this.lineHeight);
           // console.log('下啦', this.currentY);
           if (this.currentY >= 0) {
             this.currentY = 0;
@@ -166,7 +166,7 @@
 <style scoped lang="less">
   .picker {
     position: fixed;
-    min-height: 3.733rem;
+    min-height: 280px;
     overflow: auto;
     right: 0;
     bottom: 0;
@@ -188,8 +188,8 @@
         .am-picker-item {
           color: #108ee9;
           font-size: 17px;
-          padding: 0.12rem 0.2rem;
-          height: 0.56rem;
+          padding: 9px 15px;
+          height: 42px;
           box-sizing: border-box;
           display: flex;
           align-items: center;
@@ -212,16 +212,16 @@
         .am-picker-col {
           display: block;
           position: relative;
-          height: 3.8rem;
+          height: 238px;
           overflow: hidden;
           width: 100%;
           
           .am-picker-col-indicator {
             width: 100%;
-            height: 0.453rem;
+            height: 34px;
             position: absolute;
             left: 0;
-            top: 1.653rem;
+            top: 102px;
             border-top: 1px solid #d9d9d9;
             border-bottom: 1px solid #d9d9d9;
           }
@@ -233,9 +233,8 @@
             margin: 0 auto;
             width: 100%;
             background-image: linear-gradient(to bottom,rgba(255,255,255,.95),rgba(255,255,255,.6)),linear-gradient(to top,rgba(255,255,255,.95),rgba(255,255,255,.6));
-            /*background-image: linear-gradient(to bottom, rgba(74, 255, 152, 0.95), rgba(255, 67, 65, 0.6)),linear-gradient(to top, rgba(104, 255, 118, 0.95), rgba(255, 102, 105, 0.6));*/
             background-position: top,bottom;
-            background-size: 100% 1.653rem;
+            background-size: 100% 102px;
             background-repeat: no-repeat;
             z-index: 1;
           }
@@ -244,13 +243,13 @@
             left: 0;
             top: 0;
             width: 100%;
-            padding: 1.68rem 0;
+            padding: 102px 0;
             .am-picker-col-item {
               touch-action: manipulation;
               text-align: center;
-              font-size: 0.213rem;
-              height: 0.453rem;
-              line-height: 0.453rem;
+              font-size: 16px;
+              height: 34px;
+              line-height: 34px;
               color: #000;
               white-space: nowrap;
               text-overflow: ellipsis;
