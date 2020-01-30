@@ -10,8 +10,11 @@
         <div class="am-picker-col"
              ref="col"
              @touchstart="panstart"
+             @mousedown="panstart"
              @touchmove="panmove"
-             @touchend="panend">
+             @mousemove="panmove"
+             @touchend="panend"
+             @mouseup="panend">
           <div class="am-picker-col-indicator"></div>
           <ul class="am-picker-col-content">
             <div class="am-picker-col-item" v-for="item of data" :key="item.value">{{item.label}}</div>
