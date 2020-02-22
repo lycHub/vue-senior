@@ -5,6 +5,9 @@ import './assets/styles/index.less';
 import 'amfe-flexible';
 import {setViewport} from "./viewport";
 setViewport();
+
+// 全局组件
+import './components';
 new Vue({
   el: '#app',
   render: h => h(App)
