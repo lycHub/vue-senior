@@ -1,13 +1,14 @@
 <template>
   <div id="app">
-    <h1>{{ title }}</h1>
+    <h1 @click="showNotice">{{ title }}</h1>
+<!--    <gl-notification v-model="visible" content="提示信息"></gl-notification>-->
     <div class="comp-demo">
-      <gl-form ref="glForm" :model="formValues" :rules="rules">
-        <gl-form-item class="form-item" label="用户名：" prop="username">
-          <gl-input v-model="formValues.username" placeholder="请输入用户名" class="form-control"></gl-input>
+      <gl-form ref="formIns" :model="formValues" :rules="rules">
+        <gl-form-item label="用户名：" prop="username" class="form-item">
+          <gl-input class="form-control" placeholder="用户名" v-model="formValues.username"></gl-input>
         </gl-form-item>
-        <gl-form-item class="form-item" label="密码：" prop="password">
-          <gl-input v-model="formValues.password" type="password" class="form-control" placeholder="请输入密码"></gl-input>
+        <gl-form-item label="密码：" prop="password" class="form-item">
+          <gl-input class="form-control" type="password" placeholder="密码" v-model="formValues.password"></gl-input>
         </gl-form-item>
         <gl-form-item class="form-item">
           <div class="btns">
@@ -26,9 +27,10 @@
     data() {
       return {
         title: 'Senior Vue',
+        visible: false,
         formValues: {
           username: '',
-          password: ''
+          password: '',
         },
         rules: {
           username: [
@@ -42,22 +44,33 @@
       }
     },
     methods: {
-      onSubmit() {
-        this.$refs['glForm'].validate(valid => {
-          console.log('valid', valid);
-          if (valid) {
-            this.$notice.success({
-              content: '提交成功'
-            });
-          } else {
-            this.$notice.error({
-              content: '提交失败'
-            });
+      showNotice() {
+        this.$Notice.error({
+          content: '一条消息',
+          duration: 0,
+          render() {
+            return <b>render function notice</b>
+          },
+          onClosed() {
+            console.log('onClosed');
           }
         });
       },
       onReset() {
-        this.$refs['glForm'].resetFileds();
+        this.$refs['formIns'].resetFields();
+      },
+      onSubmit() {
+        this.$refs['formIns'].validate(valid => {
+          if (valid) {
+            this.$Notice.success({
+              content: 'ok'
+            });
+          } else {
+            this.$Notice.error({
+              content: 'fail'
+            });
+          }
+        })
       }
     }
   }

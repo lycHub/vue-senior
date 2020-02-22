@@ -1,11 +1,11 @@
 <template>
   <transition name="notice" @after-enter="afterEnter" @after-leave="afterLeave">
     <div
-            :class="['gl-notice', 'gl-notice-' + type]"
-            v-show="visible"
-            :style="{ top: offsetTop + 'px' }"
-            @mouseenter="clearTimer"
-            @mouseleave="createTimer">
+      :class="['gl-notice', 'gl-notice-' + type]"
+      v-show="visibility"
+      :style="{ top: offsetTop + 'px' }"
+      @mouseenter="clearTimer"
+      @mouseleave="createTimer">
       <div class="gl-notice-content">
         <render-cell :render="render" v-if="render"></render-cell>
         <div class="gl-notice-desc" v-else>{{content}}</div>
@@ -16,14 +16,23 @@
 </template>
 
 <script>
-  import RenderCell from '../base/render'
+  import {normalGap} from "./index";
+  import RenderCell from '../base/render';
   export default {
-    name: "Notice",
+    name: "glNotice",
     components: { RenderCell },
+    model: {
+      prop: 'visible',
+      event: 'close'
+    },
     props: {
       content: {
-        type: String,
+        type: [String, Number],
         default: ''
+      },
+      visible: {
+        type: Boolean,
+        default: false
       },
       duration: {
         type: Number,
@@ -34,16 +43,16 @@
     },
     data() {
       return {
-        timer: null,
-        visible: false,
-        offsetTop: 14,
+        visibility: false,
+        offsetTop: normalGap,
         height: 0,
+        timer: null,
         type: 'info'
       }
     },
     watch: {
       visible(newVal) {
-        // console.log('visible', newVal);
+        this.visibility = newVal;
         if (newVal) {
           if (this.duration) {
             this.createTimer();
@@ -51,18 +60,23 @@
         } else {
           this.clearTimer();
         }
-      }
-    },
-    mounted() {
-      console.log('mounted');
+      },
     },
     methods: {
+      afterEnter() {
+        this.height = this.$el.offsetHeight;
+      },
+      afterLeave() {
+        this.$emit('closed', this);
+      },
       close() {
         this.$emit('close');
       },
       createTimer() {
-        this.clearTimer();
-        this.timer = setTimeout(() => this.close(), this.duration);
+        if (!this.$isServer) {
+          this.clearTimer();
+          this.timer = setTimeout(() => this.close(), this.duration);
+        }
       },
       clearTimer () {
         if (this.timer) {
@@ -70,22 +84,8 @@
           this.timer = null;
         }
       },
-      afterEnter() {
-        this.height = this.$el.offsetHeight;
-        this.$emit('entered');
-      },
-      afterLeave() {
-        this.$emit('closed', this);
-      }
     },
-    beforeDestory() {
-      console.log('beforeDestory');
-      this.$emit('bd');
-      this.clearTimer();
-    },
-    destory() {
-      console.log('destory');
-      this.$emit('bd');
+    beforeDestroy() {
       this.clearTimer();
     }
   }

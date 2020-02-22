@@ -13,55 +13,48 @@
 </template>
 
 <script>
-  import schema from 'async-validator';
-  import {findComponentDownward} from "../../utils/assits";
+  import Schema from 'async-validator';
   export default {
     name: "glFormItem",
     inject: ['form'],
     props: {
-      label: {
-        type: String,
-        default: ''
-      },
-      prop: {
-        type: String,
-        default: ''
-      }
+      label: String,
+      prop: String
     },
     data() {
       return {
         error: '',
-        formControl: null
+        formControl: null,
       }
     },
     methods: {
-      setFormControl(formControl) {
-        this.formControl = formControl;
-      },
-      resetFiled(value) {
-        if (this.formControl) {
-          this.formControl.$emit('reset', value);
-          this.error = '';
-        }
-      },
       validate() {
         const value = this.form.model[this.prop];
         const rules = this.form.rules[this.prop];
-        const descriptor = { [this.prop]: rules };
-        const validator = new schema(descriptor);
-        return validator.validate({ [this.prop]: value }).then(() => {
+        const schema = new Schema({ [this.prop]: rules });
+        return schema.validate({ [this.prop]: value }).then(() => {
           this.error = '';
           return true;
         }).catch(({ errors }) => {
-          this.error = errors[0].message;
+          console.log(errors);
+          this.error = errors[0].message
           return Promise.reject(errors);
         });
+      },
+      resetField(value) {
+        if (this.formControl) {
+          this.formControl.$emit('reset', value);
+        }
+        this.error = '';
+      },
+      setForControl(child) {
+        this.formControl = child;
       }
     },
     mounted() {
-      this.$on('onValidtate', () => {
+      this.$on('onValidate', () => {
         this.validate();
-      });
+      })
     }
   }
 </script>

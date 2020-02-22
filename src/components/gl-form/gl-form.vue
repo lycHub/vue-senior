@@ -16,10 +16,11 @@
     },
     props: {
       model: Object,
-      rules: Object
+      rules: Object,
     },
     data() {
       return {
+        error: '',
         memeryModel: null
       }
     },
@@ -35,13 +36,15 @@
     },
     methods: {
       validate(cb) {
-        const children = findComponentsDownward(this, 'glFormItem');
-        Promise.all(children.filter(child => child.prop).map(child => child.validate()))
-          .then(() => cb(true)).catch(() => cb(false));
+        const formItems = findComponentsDownward(this, 'glFormItem');
+        console.log(formItems);
+        Promise.all(formItems.filter(child => child.prop).map(child => child.validate())).then(() => {
+          cb(true);
+        }).catch(() => cb(false));
       },
-      resetFileds() {
-        const children = findComponentsDownward(this, 'glFormItem');
-        children.filter(child => child.prop).forEach(child => child.resetFiled(this.memeryModel[child.prop]));
+      resetFields() {
+        const formItems = findComponentsDownward(this, 'glFormItem');
+        formItems.filter(child => child.prop).forEach(child => child.resetField(this.memeryModel[child.prop]));
       }
     }
   }
