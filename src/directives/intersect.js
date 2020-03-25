@@ -11,7 +11,10 @@ export default {
           firstChange = false;
           return;
         }
-        value && value(entries[0], entries[0].intersectionRatio > 0);
+        value && value({
+          entry: entries[0],
+          isVisible: entries[0].intersectionRatio > 0
+        });
       });
 
       // 监测指定节点

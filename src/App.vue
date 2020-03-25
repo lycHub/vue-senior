@@ -20,7 +20,9 @@
     <div class="wrapper">
       <div class="box">box</div>
       <div class="box box2">box2</div>
-      <div class="box box3" v-intersect.quiet="onIntersect">box3</div>
+      <gl-lazy transit>
+        <div class="box box3">box3</div>
+      </gl-lazy>
       <div class="box box4">box4</div>
       <div class="box box5">box5</div>
     </div>
@@ -50,10 +52,6 @@
       }
     },
     methods: {
-      onIntersect(entry, isVisible) {
-        // console.log('entry', entry);
-        console.log('isVisible', isVisible);
-      },
       onSubmit() {
         this.$refs['glForm'].validate(valid => {
           console.log('valid', valid);
