@@ -17,7 +17,13 @@
         </gl-form-item>
       </gl-form>
     </div>
-    <picker :data="singleArea" v-model="value"></picker>
+    <div class="wrapper">
+      <div class="box">box</div>
+      <div class="box box2">box2</div>
+      <div class="box box3" v-intersect.quiet="onIntersect">box3</div>
+      <div class="box box4">box4</div>
+      <div class="box box5">box5</div>
+    </div>
   </div>
 </template>
 
@@ -40,93 +46,14 @@
             { type: 'string', min: 6, message: '至少6位密码' }
           ],
         },
-        // value: [{
-        //   value: 1018,
-        //   label: '延庆县'
-        // }],
-        value: [],
-        singleArea: [
-          {
-            value: 1001,
-            label: '东城区'
-          },
-          {
-            value: 1002,
-            label: '西城区'
-          },
-          {
-            value: 1003,
-            label: '崇文区'
-          },
-          {
-            value: 1004,
-            label: '宣武区'
-          },
-          {
-            value: 1005,
-            label: '朝阳区'
-          },
-          {
-            value: 1006,
-            label: '丰台区'
-          },
-          {
-            value: 1007,
-            label: '石景山区'
-          },
-          {
-            value: 1008,
-            label: '海淀区'
-          },
-          {
-            value: 1009,
-            label: '门头沟区'
-          },
-          {
-            value: 1010,
-            label: '房山区'
-          },
-          {
-            value: 1011,
-            label: '通州区'
-          },
-          {
-            value: 1012,
-            label: '顺义区'
-          },
-          {
-            value: 1013,
-            label: '昌平区'
-          },
-          {
-            value: 1014,
-            label: '大兴区'
-          },
-          {
-            value: 1015,
-            label: '平谷区'
-          },
-          {
-            value: 1016,
-            label: '怀柔区'
-          },
-          {
-            value: 1017,
-            label: '密云县'
-          },
-          {
-            value: 1018,
-            label: '延庆县'
-          }
-        ]
-      }
-    },
-    watch: {
-      value(n) {
-        console.log('n', n);
+        io: null
       }
     },
     methods: {
+      onIntersect(entry, isVisible) {
+        // console.log('entry', entry);
+        console.log('isVisible', isVisible);
+      },
       onSubmit() {
         this.$refs['glForm'].validate(valid => {
           console.log('valid', valid);
@@ -144,6 +71,49 @@
       onReset() {
         this.$refs['glForm'].resetFileds();
       }
+    },
+    mounted() {
+     /* this.io = new IntersectionObserver(entries => {
+        // entries是被监测节点的集合
+        console.log('变了' );
+        if (entries[0].intersectionRatio <= 0) {
+          console.log('不可见');
+        } else {
+          console.log('可见');
+        }
+      });*/
+
+      // 监测指定节点
+      // this.io.observe(this.$refs['box3']);
+      // this.io.observe(this.$refs['box4']);   可监测多个
     }
   }
 </script>
+<style lang="less" scoped>
+  #app {
+    .wrapper {
+      height: 6.667rem;
+      overflow: scroll;
+      .box {
+        height: 6.667rem;
+        line-height: 6.667rem;
+        background-color: #2b85e4;
+        color: #fff;
+        font-size: 0.24rem;
+        text-align: center;
+      }
+      .box2 {
+        background-color: #19be6b;
+      }
+      .box3 {
+        background-color: #b8be2c;
+      }
+      .box4 {
+        background-color: #be7944;
+      }
+      .box5 {
+        background-color: #992abe;
+      }
+    }
+  }
+</style>

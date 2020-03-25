@@ -6,6 +6,7 @@ import 'amfe-flexible';
 import {setViewport} from "./viewport";
 setViewport();
 import './components'
+import './directives'
 new Vue({
   el: '#app',
   render: h => h(App)
