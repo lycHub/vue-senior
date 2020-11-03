@@ -17,7 +17,7 @@
         </gl-form-item>
       </gl-form>
     </div>
-    <picker :data="singleArea" v-model="value"></picker>
+    <picker :data="singleArea" v-model="value" />
   </div>
 </template>
 
