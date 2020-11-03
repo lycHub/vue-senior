@@ -73,7 +73,7 @@
           } else {
             this.currentY = 0;
           }
-          
+
           this.startY = ev.clientY;
           this.isMouseDown = true;
         }
@@ -89,7 +89,7 @@
       },
       panend(event) {
         this.isMouseDown = false;
-        event.preventDefault();
+        // event.preventDefault();
         const ev = getEventTarget(event);
         this.differY = ev.clientY - this.startY;
         let time = 0.3;
@@ -207,7 +207,7 @@
           }
         }
       }
-      
+
       .am-picker-body {
         display: flex;
         align-items: center;
@@ -218,7 +218,7 @@
           height: 238px;
           overflow: hidden;
           width: 100%;
-          
+
           .am-picker-col-indicator {
             width: 100%;
             height: 34px;
