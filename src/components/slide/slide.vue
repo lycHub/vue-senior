@@ -26,18 +26,22 @@
     watch: {
       value (newVal) {
         this.current = newVal;
+        this.refresh();
       }
     },
     methods: {
-
+      refresh() {
+        // 30分钟
+        if (this.$children.length) {
+          const current = this.current || this.$children[0].name;
+          this.$children.forEach(item => {
+            item.show = item.name === current;
+          });
+        }
+      }
     },
     mounted() {
-      if (this.$children.length) {
-        this.current = this.current || this.$children[0].name;
-        this.$children.forEach(item => {
-          item.show = item.name === this.current;
-        });
-      }
+      this.refresh();
     }
   }
 </script>

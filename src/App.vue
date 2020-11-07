@@ -2,7 +2,7 @@
   <div id="app">
     <h1>{{ title }}</h1>
     <div class="test-box">
-      <slide class="slide">
+      <slide class="slide" v-model="current">
         <slide-item class="slide-item" name="slide1">
           <p>slide 1</p>
         </slide-item>
@@ -26,7 +26,7 @@
     data() {
       return {
         title: 'Senior Vue',
-        currentType: 'A'
+        current: 'slide2'
       }
     },
     methods: {
