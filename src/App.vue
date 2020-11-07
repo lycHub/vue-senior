@@ -26,11 +26,16 @@
     data() {
       return {
         title: 'Senior Vue',
-        current: 'slide2'
+        current: 'slide1'
       }
     },
     methods: {
 
+    },
+    mounted() {
+      setTimeout(() => {
+        this.current = 'slide2';
+      }, 2000)
     }
   }
 </script>

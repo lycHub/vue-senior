@@ -1,6 +1,8 @@
 <template>
   <div class="slide">
-    <slot />
+    <div class="views">
+      <slot />
+    </div>
     <div class="direct">
       <button>to left</button>
       <button>to right</button>
@@ -31,7 +33,7 @@
     },
     methods: {
       refresh() {
-        // 30分钟
+        // 42分钟
         if (this.$children.length) {
           const current = this.current || this.$children[0].name;
           this.$children.forEach(item => {
@@ -48,6 +50,9 @@
 
 <style scoped lang="less">
   .slide {
+    .views {
+      position: relative;
+    }
     .direct {
       button {
         padding: 10px;
