@@ -33,9 +33,7 @@
 
     },
     mounted() {
-      setTimeout(() => {
-        this.current = 'slide2';
-      }, 2000)
+      
     }
   }
 </script>

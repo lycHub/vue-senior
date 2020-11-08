@@ -1,5 +1,5 @@
 <template>
-  <transition name="slide">
+  <transition :name="transitionName">
     <div class="slide-item" v-show="show">
       <slot />
     </div>
@@ -17,9 +17,15 @@
     },
     data () {
       return {
-        show: false
+        show: false,
+        reverse: false
       }
-    }
+    },
+    computed: {
+      transitionName() {
+        return this.reverse ? 'slide-reverse' : 'slide';
+      }
+    },
   }
 </script>
 
@@ -28,7 +34,7 @@
 
   }
 
-  .slide-enter-active, .slide-leave-active {
+  .slide-enter-active, .slide-leave-active, .slide-reverse-enter-active, .slide-reverse-leave-active {
     position: absolute;
     left: 0;
     right: 0;
@@ -42,5 +48,16 @@
   }
   .slide-leave-to {
     transform: translateX(-100%);
+  }
+
+
+  .slide-reverse-enter {
+    transform: translateX(-100%);
+  }
+  .slide-reverse-enter-to {
+    transform: translateX(0);
+  }
+  .slide-reverse-leave-to {
+    transform: translateX(100%);
   }
 </style>
