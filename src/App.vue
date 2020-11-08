@@ -17,7 +17,7 @@
 
 <script>
 import Tabs from "./components/tabs/tabs.js";
-import TabPane from "./components/tabs/tab-pane";
+import TabPane from "./components/tabs/tab-pane.js";
 export default {
   name: "App",
   components: { Tabs, TabPane },
