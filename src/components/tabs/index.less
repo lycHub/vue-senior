@@ -1,0 +1,48 @@
+.tabs {
+  .tabs-nav-wrap {
+    overflow-x: auto;
+    overflow-y: hidden;
+    border-bottom: 1px solid #e8e8e8;
+    margin-bottom: 16px;
+
+
+    .tabs-nav-scroll {
+      position: relative;
+      display: flex;
+
+      .tabs-nav {
+        flex-shrink: 0;
+        height: 100%;
+        width: 64px;
+        text-align: center;
+        height: 32px;
+        line-height: 32px;
+        transition: color 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+
+        &.active {
+          color: #096dd9;
+        }
+      }
+
+      .tabs-ink-bar {
+        position: absolute;
+        bottom: 0;
+        // left: 16px;
+        // width: 32px;
+        height: 2px;
+        background-color: #1890ff;
+        transition: left .2s ease-in-out;
+      }
+    }
+  }
+
+  .tabs-content {
+    display: flex;
+    transition: transform .2s ease-in-out;
+
+    .tabs-tabpane {
+      width: 100%;
+      flex-shrink: 0;
+    }
+  }
+}
