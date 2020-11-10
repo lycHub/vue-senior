@@ -1,28 +1,22 @@
 <template>
-  <div id="app">
-    <h1>{{ title }}</h1>
-    <div class="test-box">
-      <my-tree
-          :source="data4"
-          @select="onSelect"
-          @expand-change="expandChange">
-        <template #title0010102>
-          <h1>Here might be a page title</h1>
-        </template>
-      </my-tree>
-    </div>
+  <div>
+    <my-tree
+      :source="data4"
+      @select="onSelect"
+      @expand-change="expandChange">
+      <template #title0010102>
+        <h1>Here might be a page title</h1>
+      </template>
+    </my-tree>
   </div>
 </template>
-
 <script>
-  import MyTree from './components/tree-jsx/my-tree';
-
+  import MyTree from './my-tree';
   export default {
-    name: 'App',
     components: { MyTree },
+    name: 'TreeDemo',
     data() {
       return {
-        title: 'Vue',
         data4: [
           {
             title: 'parent 1',
@@ -139,28 +133,3 @@
     }
   }
 </script>
-<style lang="less" scoped>
-  #app {
-    color: #fff;
-    h1 {
-      font-size: 20px;
-    }
-    .test-box {
-      padding: 20px 0;
-      .slide {
-        .slide-item {
-          text-align: center;
-          height: 150px;
-          line-height: 150px;
-          background-color: #19be6b;
-          &:nth-child(2) {
-            background-color: #3950be;
-          }
-          &:nth-child(3) {
-            background-color: #be5a54;
-          }
-        }
-      }
-    }
-  }
-</style>
