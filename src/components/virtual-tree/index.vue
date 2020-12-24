@@ -49,7 +49,7 @@
           } else {
             console.log('异步加载');
             this.loadData(item, children => {
-              console.log('cb', children);
+              // console.log('cb', children);
               if (children.length) {
                 item.children = children;
                 this.expandNode(item, index);
