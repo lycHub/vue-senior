@@ -5,7 +5,7 @@
   "main": "index.js",
   "private": true,
   "scripts": {
-    "start": "vue serve src/index.js --port 4200"
+    "start": "vue serve src/index.js -p 4200"
   },
   "keywords": [
     "vue"
