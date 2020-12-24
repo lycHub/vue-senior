@@ -17,12 +17,6 @@ export default {
     }
   },
   computed: {
-    hasChildren () {
-      return this.node.children && this.node.children.length;
-    },
-    showNode () {
-      return this.hasChildren && this.node.expand;
-    },
     trueRender () {
       // console.log('myTree rr', this.myTree.render);
       return this.node.render || this.myTree.renderFunc;
@@ -45,7 +39,7 @@ export default {
     }
   },
   render (h) {
-    const { selected, expand, title, children } = this.node;
+    const { selected, expand, title, children, isLeaf } = this.node;
     const nodeCls = selected ? 'my-tree-node node-selected' : 'my-tree-node';
     const iconCls = expand ? 'my-tree-arrow expand' : 'my-tree-arrow';
     const myNodes = (children || []).map(item => {
@@ -62,7 +56,7 @@ export default {
     return (
       <div class="my-tree-children">
         <div class={ nodeCls }>
-          { this.hasChildren ? <i class={ iconCls } onClick={ this.handleExpand.bind(this) }>&gt;</i> : '' }
+          { isLeaf ? '' : <i class={iconCls} onClick={this.handleExpand.bind(this)}>&gt;</i> }
           <span class="my-tree-title" onClick={ this.handleSelect.bind(this) }>
             { titleContent }
           </span>

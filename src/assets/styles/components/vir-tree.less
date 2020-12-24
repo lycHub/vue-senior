@@ -1,12 +1,12 @@
-@baseCls: virtual-tree;
-.@{baseCls} {
+@vbaseCls: virtual-tree;
+.@{vbaseCls} {
   position: relative;
   display: inline-block;
   user-select: none;
-  .@{baseCls}-wrap {
-    .@{baseCls}-node {
+  .@{vbaseCls}-wrap {
+    .@{vbaseCls}-node {
       padding: 8px 0;
-      .@{baseCls}-arrow {
+      .@{vbaseCls}-arrow {
         display: inline-block;
         width: 12px;
         text-align: center;
@@ -15,7 +15,7 @@
           transform: rotate(90deg);
         }
       }
-      .@{baseCls}-title {
+      .@{vbaseCls}-title {
         display: inline-block;
         margin: 0;
         padding: 0 4px;
@@ -26,10 +26,10 @@
         transition: all .2s ease-in-out;
       }
     }
-    .node-selected .@{baseCls}-title {
+    .node-selected .@{vbaseCls}-title {
       background-color: #d5e8fc;
     }
-    .@{baseCls}-children {
+    .@{vbaseCls}-children {
       padding-left: 18px;
     }
   }

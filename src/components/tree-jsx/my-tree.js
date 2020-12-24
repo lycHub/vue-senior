@@ -10,9 +10,8 @@ export default {
       type: Array,
       default: () => []
     },
-    renderFunc: {
-      type: Function
-    }
+    renderFunc: Function,
+    loadData: Function
   },
   data () {
     return {
@@ -59,9 +58,29 @@ export default {
       }
       this.$emit('select', this.selection);
     },
+    // handleExpand (node) {
+    //   node.expand = !node.expand;
+    //   this.$emit('expand-change', node);
+    // },
     handleExpand (node) {
-      this.$set(node, 'expand', !node.expand);
-      this.$emit('expand-change', node);
+      // console.log('handleExpand', node);
+      const newStatus = !node.expand;
+      if (newStatus) {
+        if (node.children?.length) {
+          // this.$set(node, 'expand', newStatus);
+          node.expand = newStatus;
+          this.$emit('expand-change', node);
+        } else {
+          this.loadData(node, children => {
+            this.$set(node, 'children', children);
+            node.expand = newStatus;
+            this.$emit('expand-change', node);
+          });
+        }
+      } else {
+        node.expand = newStatus;
+        this.$emit('expand-change', node);
+      }
     },
     flatTree () {
       const flatTree = [];
