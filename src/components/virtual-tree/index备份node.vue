@@ -1,22 +1,19 @@
 <template>
   <div class="virtual-tree">
     <div class="virtual-tree-wrap">
+      <!--   循环node   -->
       <template v-for="(item, index) of flatList">
-        <div
-            :key="item.id" v-if="item.visible"
-            class="virtual-tree-node"
-            :style="{ paddingLeft: item.level * 18 + 'px' }">
-          <i :class="['virtual-tree-arrow', { expand: item.expand }]" v-if="!item.isLeaf" @click="toggleExpand(item, index)">&gt;</i>
-          <span class="virtual-tree-title">{{ item.title }}</span>
-        </div>
+        <VirtualTreeNode :key="item.id" v-if="item.visible" :node="item" @toggle-expand="toggleExpand(item, index)" />
       </template>
     </div>
   </div>
 </template>
 
 <script>
+import VirtualTreeNode from './node';
 export default {
   name: "VirtualTree",
+  components: { VirtualTreeNode },
   props: {
     source: {
       type: Array,
@@ -43,6 +40,7 @@ export default {
       if (item.expand) {
         if (item.children.length) {
           this.expandNode(item);
+          this.$forceUpdate();
         } else {
           console.log('异步加载');
           this.loadData(item, children => {
@@ -50,11 +48,13 @@ export default {
             if (children.length) {
               item.children = children;
               this.expandNode(item, index);
+              this.$forceUpdate();
             }
           });
         }
       } else {
         this.collapseNode(item);
+        this.$forceUpdate();
       }
     },
     expandNode (node, index) {

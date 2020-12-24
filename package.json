@@ -18,6 +18,8 @@
   },
   "dependencies": {
     "amfe-flexible": "^2.2.1",
-    "async-validator": "^3.2.3"
+    "async-validator": "^3.2.3",
+    "vue-virtual-scroll-list": "^1.4.7",
+    "vue-virtual-scroller": "^1.0.10"
   }
 }

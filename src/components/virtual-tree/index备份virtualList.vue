@@ -1,22 +1,27 @@
 <template>
   <div class="virtual-tree">
     <div class="virtual-tree-wrap">
-      <template v-for="(item, index) of flatList">
-        <div
-            :key="item.id" v-if="item.visible"
-            class="virtual-tree-node"
-            :style="{ paddingLeft: item.level * 18 + 'px' }">
-          <i :class="['virtual-tree-arrow', { expand: item.expand }]" v-if="!item.isLeaf" @click="toggleExpand(item, index)">&gt;</i>
-          <span class="virtual-tree-title">{{ item.title }}</span>
-        </div>
-      </template>
+      <!--   循环node   -->
+      <virtual-list :size="32" :remain="10" ref="vl">
+        <template v-for="(item, index) of flatList">
+          <div
+              :key="item.id" v-if="item.visible"
+              class="virtual-tree-node"
+              :style="{ paddingLeft: item.level * 18 + 'px' }">
+            <i :class="['virtual-tree-arrow', { expand: item.expand }]" v-if="!item.isLeaf" @click="toggleExpand(item, index)">&gt;</i>
+            <span class="virtual-tree-title">{{ item.title }}</span>
+          </div>
+        </template>
+      </virtual-list>
     </div>
   </div>
 </template>
 
 <script>
+import virtualList from 'vue-virtual-scroll-list'
 export default {
   name: "VirtualTree",
+  components: { 'virtual-list': virtualList },
   props: {
     source: {
       type: Array,

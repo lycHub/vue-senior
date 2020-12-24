@@ -29,7 +29,7 @@
       },
       generateBigData() {
         const result = [];
-        for (let a = 1; a <= 15000; a++) {
+        for (let a = 1; a <= 5000; a++) {
           result.push({
             title: 'leaf 2-2-2-' + a,
             pid: '0020202',
