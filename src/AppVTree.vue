@@ -2,7 +2,8 @@
   <div id="app">
     <h1>{{ title }}</h1>
     <div class="test-box">
-      <VirtualTree :source="list" :load-data="loadData" />
+      <Button @click="submit">submit</Button>
+      <VirtualTree :source="list" :load-data="loadData" ref="vTree" />
     </div>
   </div>
 </template>
@@ -21,17 +22,21 @@
       }
     },
     methods: {
+      submit () {
+        const checkedNodes = this.$refs['vTree'].getCheckedNodes();
+        console.log('checkedNodes', checkedNodes);
+      },
       loadData (item, callback) {
         const children = this.generateBigData();
         setTimeout(() => {
           callback(children);
-        }, 100);
+        }, 1000);
       },
       /*generateBigData() {
         const result = [];
         for (let a = 1; a <= 2; a++) {
           result.push({
-            title: 'leaf 2-2-2-' + a,
+            name: 'leaf 2-2-2-' + a,
             pid: '0020202',
             id: '00202020' + a,
             isLeaf: true
@@ -41,12 +46,12 @@
       }*/
       generateBigData() {
         const result = [];
-        for (let a = 1; a <= 200; a++) {
+        for (let a = 1; a <= 2000; a++) {
           result.push({
             name: randomString(6) + a,
             pid: '0020202',
             id: randomString(8) + a,
-            isLeaf: false
+            isLeaf: true
           })
         }
         return result;

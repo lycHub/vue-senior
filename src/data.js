@@ -1,14 +1,15 @@
 export const treeData = [
   {
     name: 'parent 1',
-    expand: false,
+    expand: true,
     id: '001',
     pid: '0',
     isLeaf: false,
     children: [
       {
         name: 'parent 1-1',
-        expand: false,
+        expand: true,
+        checked: true,
         pid: '001',
         id: '00101',
         isLeaf: false,
@@ -54,6 +55,7 @@ export const treeData = [
   {
     name: 'parent 2',
     expand: false,
+    checked: true,
     id: '002',
     pid: '0',
     isLeaf: false,
