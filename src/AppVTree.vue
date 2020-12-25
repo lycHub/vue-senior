@@ -80,8 +80,8 @@
   }
   .test-box {
     padding: 20px;
-    max-height: 300px;
-    overflow-y: auto;
+    /*max-height: 320px;*/
+    /*overflow-y: auto;*/
   }
 }
 </style>

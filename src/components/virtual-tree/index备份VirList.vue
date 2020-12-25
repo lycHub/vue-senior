@@ -1,19 +1,26 @@
 <template>
   <div class="virtual-tree">
     <div class="virtual-tree-wrap">
-      <!--   循环node   -->
-      <template v-for="(item, index) of flatList">
-        <VirtualTreeNode :key="item.id" v-if="item.visible" :node="item" @toggle-expand="toggleExpand(item, index)" />
-      </template>
+      <virtual-list :size="32" :remain="10">
+        <template v-for="(item, index) of visibleList">
+          <div
+            :key="item.id"
+            class="virtual-tree-node"
+            :style="{ paddingLeft: item.level * 18 + 'px' }">
+            <i :class="['virtual-tree-arrow', { expand: item.expand }]" v-if="!item.isLeaf" @click="toggleExpand(item, index)">&gt;</i>
+            <span class="virtual-tree-title">{{ item.title }}</span>
+          </div>
+        </template>
+      </virtual-list>
     </div>
   </div>
 </template>
 
 <script>
-import VirtualTreeNode from './node';
+import VirtualList from 'vue-virtual-scroll-list'
 export default {
   name: "VirtualTree",
-  components: { VirtualTreeNode },
+  components: { VirtualList },
   props: {
     source: {
       type: Array,
@@ -30,7 +37,8 @@ export default {
   watch: {
     source (newVal) {
       this.flatList = this.flattenTree();
-      console.log('flatList', this.flatList);
+      // console.log('flatList', this.flatList);
+      this.refreshVisibleList();
     }
   },
   methods: {
@@ -40,24 +48,26 @@ export default {
       if (item.expand) {
         if (item.children.length) {
           this.expandNode(item);
-          this.$forceUpdate();
+          this.refreshVisibleList();
         } else {
           console.log('异步加载');
           this.loadData(item, children => {
             // console.log('cb', children);
             if (children.length) {
               item.children = children;
-              this.expandNode(item, index);
-              this.$forceUpdate();
+              this.expandNode(item, true);
+              this.$nextTick(() => {
+                this.refreshVisibleList();
+              })
             }
           });
         }
       } else {
         this.collapseNode(item);
-        this.$forceUpdate();
+        this.refreshVisibleList();
       }
     },
-    expandNode (node, index) {
+    expandNode (node, setFlatList = false) {
       node.children.forEach(item => {
         item.visible = true;
         item.level = item.level || node.level + 1;
@@ -65,8 +75,14 @@ export default {
         item.isLeaf = item.isLeaf || false;
         // item.children = item.children || [];
       });
-      if (typeof index === 'number') {
-        this.flatList.splice(index + 1, 0, ...node.children);
+      if (setFlatList) {
+        const targetIndex = this.flatList.findIndex(item => item.id === node.id);
+        this.flatList.splice(targetIndex + 1, 0, ...node.children);
+        // console.log('flatlist', this.flatList);
+        // console.log('node', node);
+        // this.flatList.splice(index + 1, 0, ...node.children);
+        // this.flatList = this.flattenTree();
+        // this.refreshVisibleList();
       }
     },
     collapseNode (node) {
@@ -80,8 +96,9 @@ export default {
         });
       }
     },
-    getVisibleList () {
-      return this.flatList.filter(item => item.visible);
+    refreshVisibleList () {
+      this.visibleList = this.flatList.filter(item => item.visible);
+      this.$forceUpdate();
     },
     flattenTree() {
       const flatten = function(list, level = 0, parent = null) {
