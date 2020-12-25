@@ -41,12 +41,12 @@
       }*/
       generateBigData() {
         const result = [];
-        for (let a = 1; a <= 50000; a++) {
+        for (let a = 1; a <= 200; a++) {
           result.push({
             name: randomString(6) + a,
             pid: '0020202',
             id: randomString(8) + a,
-            isLeaf: true
+            isLeaf: false
           })
         }
         return result;

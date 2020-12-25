@@ -68,7 +68,7 @@
           item.level = item.level || node.level + 1;
           item.expand = item.expand || false;
           item.isLeaf = item.isLeaf || false;
-          // item.children = item.children || [];
+          item.children = item.children || [];
         });
         if (setFlatList) {
           const targetIndex = this.flatList.findIndex(item => item.id === node.id);
