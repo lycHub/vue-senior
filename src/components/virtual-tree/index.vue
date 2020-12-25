@@ -1,9 +1,9 @@
 <template>
   <div class="virtual-tree">
     <div class="virtual-tree-wrap">
-      <template v-for="(item, index) of flatList">
+      <template v-for="(item, index) of visibleList">
         <div
-            :key="item.id" v-if="item.visible"
+            :key="item.id"
             class="virtual-tree-node"
             :style="{ paddingLeft: item.level * 18 + 'px' }">
           <i :class="['virtual-tree-arrow', { expand: item.expand }]" v-if="!item.isLeaf" @click="toggleExpand(item, index)">&gt;</i>
@@ -33,7 +33,8 @@ export default {
   watch: {
     source (newVal) {
       this.flatList = this.flattenTree();
-      console.log('flatList', this.flatList);
+      // console.log('flatList', this.flatList);
+      this.refreshVisibleList();
     }
   },
   methods: {
@@ -43,21 +44,26 @@ export default {
       if (item.expand) {
         if (item.children.length) {
           this.expandNode(item);
+          this.refreshVisibleList();
         } else {
           console.log('异步加载');
           this.loadData(item, children => {
             // console.log('cb', children);
             if (children.length) {
               item.children = children;
-              this.expandNode(item, index);
+              this.expandNode(item, true);
+              this.$nextTick(() => {
+                this.refreshVisibleList();
+              })
             }
           });
         }
       } else {
         this.collapseNode(item);
+        this.refreshVisibleList();
       }
     },
-    expandNode (node, index) {
+    expandNode (node, setFlatList = false) {
       node.children.forEach(item => {
         item.visible = true;
         item.level = item.level || node.level + 1;
@@ -65,8 +71,14 @@ export default {
         item.isLeaf = item.isLeaf || false;
         // item.children = item.children || [];
       });
-      if (typeof index === 'number') {
-        this.flatList.splice(index + 1, 0, ...node.children);
+      if (setFlatList) {
+        const targetIndex = this.flatList.findIndex(item => item.id === node.id);
+        this.flatList.splice(targetIndex + 1, 0, ...node.children);
+        // console.log('flatlist', this.flatList);
+        // console.log('node', node);
+        // this.flatList.splice(index + 1, 0, ...node.children);
+        // this.flatList = this.flattenTree();
+        // this.refreshVisibleList();
       }
     },
     collapseNode (node) {
@@ -80,8 +92,8 @@ export default {
         });
       }
     },
-    getVisibleList () {
-      return this.flatList.filter(item => item.visible);
+    refreshVisibleList () {
+      this.visibleList = this.flatList.filter(item => item.visible);
     },
     flattenTree() {
       const flatten = function(list, level = 0, parent = null) {

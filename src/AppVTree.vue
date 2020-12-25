@@ -27,6 +27,18 @@
           callback(children);
         }, 100);
       },
+      /*generateBigData() {
+        const result = [];
+        for (let a = 1; a <= 2; a++) {
+          result.push({
+            title: 'leaf 2-2-2-' + a,
+            pid: '0020202',
+            id: '00202020' + a,
+            isLeaf: true
+          })
+        }
+        return result;
+      }*/
       generateBigData() {
         const result = [];
         for (let a = 1; a <= 5000; a++) {
