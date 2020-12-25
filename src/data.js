@@ -90,7 +90,7 @@ export const treeData = [
             title: 'leaf 2-2-1',
             pid: '00202',
             id: '0020201',
-            isLeaf: true,
+            isLeaf: false,
           },
           {
             title: 'leaf 2-2-2',
