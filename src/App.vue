@@ -2,18 +2,18 @@
   <div id="app">
     <h1>{{ title }}</h1>
     <div class="test-box">
-      <my-tree :source="data" :load-data="loadData" />
+      <VirtualListDemo />
     </div>
   </div>
 </template>
 
 <script>
-import MyTree from './components/tree-jsx/my-tree';
+import VirtualListDemo from './components/virtual-list/demo';
 import { treeData } from './data';
 
 export default {
   name: 'App',
-  components: { MyTree },
+  components: { VirtualListDemo },
   data() {
     return {
       title: 'Vue',
@@ -49,9 +49,7 @@ export default {
     font-size: 20px;
   }
   .test-box {
-    padding: 20px;
-    max-height: 300px;
-    overflow-y: auto;
+
   }
 }
 </style>
