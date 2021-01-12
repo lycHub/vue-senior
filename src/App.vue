@@ -1,77 +1,55 @@
 <template>
   <div id="app">
-    <h1 @click="showNotice">{{ title }}</h1>
-<!--    <gl-notification v-model="visible" content="提示信息"></gl-notification>-->
-    <div class="comp-demo">
-      <gl-form ref="formIns" :model="formValues" :rules="rules">
-        <gl-form-item label="用户名：" prop="username" class="form-item">
-          <gl-input class="form-control" placeholder="用户名" v-model="formValues.username"></gl-input>
-        </gl-form-item>
-        <gl-form-item label="密码：" prop="password" class="form-item">
-          <gl-input class="form-control" type="password" placeholder="密码" v-model="formValues.password"></gl-input>
-        </gl-form-item>
-        <gl-form-item class="form-item">
-          <div class="btns">
-            <button @click="onReset" class="btn btn-default">重置</button>
-            <button @click="onSubmit" class="btn">提交</button>
-          </div>
-        </gl-form-item>
-      </gl-form>
+    <h1>{{ title }}</h1>
+    <div class="test-box">
+      <VirtualListDemo />
     </div>
   </div>
 </template>
 
 <script>
-  export default {
-    name: 'App',
-    data() {
-      return {
-        title: 'Senior Vue',
-        visible: false,
-        formValues: {
-          username: '',
-          password: '',
-        },
-        rules: {
-          username: [
-            { required: true, message: '请填写用户名' }
-          ],
-          password: [
-            { required: true, message: '请填写密码' },
-            { type: 'string', min: 6, message: '至少6位密码' }
-          ],
-        }
-      }
+import VirtualListDemo from './components/virtual-list/demo';
+import { treeData } from './data';
+
+export default {
+  name: 'App',
+  components: { VirtualListDemo },
+  data() {
+    return {
+      title: 'Vue',
+      data: treeData
+    }
+  },
+  methods: {
+    loadData (item, callback) {
+      const children = this.generateBigData();
+      setTimeout(() => {
+        callback(children);
+      }, 100);
     },
-    methods: {
-      showNotice() {
-        this.$Notice.error({
-          content: '一条消息',
-          duration: 0,
-          render() {
-            return <b>render function notice</b>
-          },
-          onClosed() {
-            console.log('onClosed');
-          }
-        });
-      },
-      onReset() {
-        this.$refs['formIns'].resetFields();
-      },
-      onSubmit() {
-        this.$refs['formIns'].validate(valid => {
-          if (valid) {
-            this.$Notice.success({
-              content: 'ok'
-            });
-          } else {
-            this.$Notice.error({
-              content: 'fail'
-            });
-          }
+    generateBigData() {
+      const result = [];
+      for (let a = 1; a <= 15000; a++) {
+        result.push({
+          title: 'leaf 2-2-2-' + a,
+          pid: '0020202',
+          id: '00202020' + a,
+          isLeaf: true
         })
       }
+      return result;
     }
   }
+}
 </script>
+<style lang="less" scoped>
+#app {
+  color: #fff;
+  h1 {
+    font-size: 20px;
+  }
+  .test-box {
+
+  }
+}
+</style>

@@ -1,13 +1,17 @@
 import Vue from 'vue';
 import App from './App.vue';
-Vue.config.productionTip = false;
-import './assets/styles/index.less';
-import 'amfe-flexible';
+import ViewUI from 'view-design';
 import {setViewport} from "./viewport";
-setViewport();
+Vue.config.productionTip = false;
+import 'view-design/dist/styles/iview.css';
+import './assets/styles/index.less';
 
-// 全局组件
-import './components';
+
+Vue.use(ViewUI);
+
+setViewport();
+import './components'
+import './directives'
 new Vue({
   el: '#app',
   render: h => h(App)

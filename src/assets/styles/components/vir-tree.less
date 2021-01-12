@@ -1,0 +1,51 @@
+@vbaseCls: virtual-tree;
+.@{vbaseCls} {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  user-select: none;
+  .@{vbaseCls}-wrap {
+    .@{vbaseCls}-node {
+      padding: 8px 0;
+      height: 35px;
+      .@{vbaseCls}-arrow {
+        display: inline-block;
+        width: 16px;
+        text-align: center;
+        cursor: pointer;
+        &.expand {
+          .icon {
+            transform: rotate(90deg);
+          }
+        }
+        .loading {
+          animation: roundLoading 1s linear infinite;
+        }
+      }
+      .@{vbaseCls}-check-box {
+        padding: 0 6px;
+        .@{vbaseCls}-title {
+          margin: 0;
+          cursor: pointer;
+          vertical-align: top;
+          color: #fff;
+        }
+      }
+    }
+    .node-selected .@{vbaseCls}-title {
+      background-color: #d5e8fc;
+    }
+    .@{vbaseCls}-children {
+      padding-left: 18px;
+    }
+  }
+
+  @keyframes roundLoading {
+    from {
+      transform: rotate(0);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+}

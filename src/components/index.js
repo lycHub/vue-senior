@@ -1,12 +1,14 @@
 import Vue from 'vue';
+import Notification from './notice/notice';
+import Notice from './notice';
 import GlInput from './gl-input';
 import GlForm from './gl-form/gl-form';
 import GlFormItem from './gl-form/gl-form-item';
-import GlNotification from './gl-notice/gl-notice';
-import GlNotice from './gl-notice';
-
-const comps = [GlInput, GlFormItem, GlForm, GlNotification];
-for (const item of comps) {
+import Picker from './picker/picker';
+import GlLazy from './gl-lazy/gl-lazy';
+const comps = [Notification, GlInput, GlFormItem, GlForm, Picker, GlLazy];
+comps.forEach(item => {
   Vue.component(item.name, item);
-}
-Vue.prototype.$Notice = GlNotice;
+});
+
+Vue.prototype.$notice = Notice;
