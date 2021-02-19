@@ -45,80 +45,7 @@
         //   label: '延庆县'
         // }],
         value: [],
-        singleArea: [
-          {
-            value: 1001,
-            label: '东城区'
-          },
-          {
-            value: 1002,
-            label: '西城区'
-          },
-          {
-            value: 1003,
-            label: '崇文区'
-          },
-          {
-            value: 1004,
-            label: '宣武区'
-          },
-          {
-            value: 1005,
-            label: '朝阳区'
-          },
-          {
-            value: 1006,
-            label: '丰台区'
-          },
-          {
-            value: 1007,
-            label: '石景山区'
-          },
-          {
-            value: 1008,
-            label: '海淀区'
-          },
-          {
-            value: 1009,
-            label: '门头沟区'
-          },
-          {
-            value: 1010,
-            label: '房山区'
-          },
-          {
-            value: 1011,
-            label: '通州区'
-          },
-          {
-            value: 1012,
-            label: '顺义区'
-          },
-          {
-            value: 1013,
-            label: '昌平区'
-          },
-          {
-            value: 1014,
-            label: '大兴区'
-          },
-          {
-            value: 1015,
-            label: '平谷区'
-          },
-          {
-            value: 1016,
-            label: '怀柔区'
-          },
-          {
-            value: 1017,
-            label: '密云县'
-          },
-          {
-            value: 1018,
-            label: '延庆县'
-          }
-        ]
+        singleArea: []
       }
     },
     watch: {
@@ -143,7 +70,18 @@
       },
       onReset() {
         this.$refs['glForm'].resetFileds();
+      },
+      setDatas(count) {
+        for (let a = 0; a < count; a++) {
+          this.singleArea.push({
+            value: 1010 + a,
+            label: '密云县' + a
+          });
+        }
       }
+    },
+    created () {
+      this.setDatas(200);
     }
   }
 </script>

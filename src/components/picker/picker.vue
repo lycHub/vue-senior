@@ -82,8 +82,9 @@
         if (this.isMouseDown) {
           // 上滑负数，下滑正
           this.differY = getEventTarget(event).clientY - this.startY;
+          console.log('panmove differY', this.differY);
           this.velocity.record(this.differY);
-          this.dom.style.transition = 'transform 0s';
+          this.dom.style.transition = 'none';
           this.dom.style.transform = `translateY(${this.currentY * this.lineHeight + this.differY}px)`;
         }
       },
@@ -92,11 +93,12 @@
         // event.preventDefault();
         const ev = getEventTarget(event);
         this.differY = ev.clientY - this.startY;
+        console.log('end differY', this.differY);
         let time = 0.3;
         const velocityTemp = this.velocity.getVelocity(this.differY) * 4;
         console.log('velocityTemp', velocityTemp);
         if (velocityTemp) {
-          this.differY = velocityTemp * 40 + this.differY;  // 最钟的滑动距离
+          this.differY += velocityTemp * 40;  // 最钟的滑动距离
           time = Math.abs(velocityTemp) * 0.1;
         }
         this.dom.style.transition = 'transform ' + Math.min(time, 0.3) + 's';
@@ -104,7 +106,7 @@
           // 经过了几个item
           this.currentY += Math.floor(this.differY / this.lineHeight);
           // console.log('上滑', this.currentY);
-          if (this.currentY <= this.maxY) {
+          if (this.currentY <= this.maxY) { // 滑的太多，超过最后一个了
             this.currentY = this.maxY;
           }
         } else if (this.differY >= this.lineHeight / 2) { // 下拉距离大于this.lineHeight / 2时
@@ -123,7 +125,6 @@
         this.setValue(this.data[this.selectedIndex]);
       },
       setValue(value) {
-        console.log('setValue');
         if (value) {
           const trueValue = Array.isArray(value) ? value : [value];
           this.currentValue = trueValue;

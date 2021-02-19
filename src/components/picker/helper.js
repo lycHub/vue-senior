@@ -17,8 +17,8 @@ export function getEventTarget(event) {
 export function getVelocity() {
   // 滑动事件正常的触发频率 30 ~ 100
   return ((minInterval = 30, maxInterval = 100) => {
-    let _time = 0;
-    let _y = 0;
+    let _time = 0;  // 记录上一次的时间戳
+    let _y = 0;     // 记录上一次的diffY
     let _velocity = 0;    // 速度
     const recorder = {
       record: y => {  // 滑动时的diffY
