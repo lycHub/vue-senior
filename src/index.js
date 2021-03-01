@@ -15,5 +15,5 @@ import './components'
 import './directives'
 new Vue({
   el: '#app',
-  render: h => h(AppVtree)
+  render: h => h(App)
 });
