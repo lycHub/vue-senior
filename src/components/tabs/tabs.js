@@ -17,7 +17,6 @@ export default {
   },
   watch: {
     value(newVal) {
-      console.log('value :>> ', newVal);
       this.current = newVal;
     }
   },
