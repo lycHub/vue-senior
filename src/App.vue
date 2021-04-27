@@ -2,17 +2,17 @@
   <div id="app">
     <h1>{{ title }}</h1>
     <div class="test-box">
-      <picker-demo />
+      <sortable />
     </div>
   </div>
 </template>
 
 <script>
-import PickerDemo from './components/picker/demo';
+import Sortable from './Sortable';
 
 export default {
   name: 'App',
-  components: { PickerDemo },
+  components: { Sortable },
   data() {
     return {
       title: 'Vue',
@@ -25,11 +25,6 @@ export default {
   color: #fff;
   h1 {
     font-size: 20px;
-  }
-  .test-box {
-    padding: 20px;
-    max-height: 300px;
-    overflow-y: auto;
   }
 }
 </style>
