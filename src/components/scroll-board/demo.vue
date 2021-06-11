@@ -1,11 +1,15 @@
 <template>
   <div class="demo-box">
-    <scroll-board :list="list" />
+    <button @click="addList">add list</button>
+    <button @click="pushList">push list</button>
+    <button @click="refreshList">refresh list</button>
+    <scroll-board :list="list"  ref="scrollBoard" />
   </div>
 </template>
 
 <script>
   import ScrollBoard from './index'
+  import {cloneDeep} from "lodash";
   export default {
     name: "ScrollBoardDemo",
     components: { ScrollBoard },
@@ -25,10 +29,24 @@
         ]
       }
     },
-    mounted() {
-      setTimeout(() => {
-        // console.log('list', this.list);
-      }, 5000);
+    methods: {
+      addList() {
+        this.$refs['scrollBoard'].updateRows([
+          ['行11列1', '行11列2', '行11列3'],
+          ['行12列1', '行12列2', '行12列3'],
+          ['行13列1', '行13列2', '行13列3']
+        ])
+      },
+      pushList() {
+        this.list.push(
+          ['行11列1', '行11列2', '行11列3'],
+          ['行12列1', '行12列2', '行12列3'],
+          ['行13列1', '行13列2', '行13列3']
+        );
+      },
+      refreshList() {
+        this.list = cloneDeep(this.list);
+      }
     }
   }
 </script>

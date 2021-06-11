@@ -1,22 +1,17 @@
 <template>
   <div class="scroll-board">
-    <transition-group
-      name="list"
-      tag="div"
-      class="rows"
-      @after-leave="afterLeave"
-      @after-enter="afterEnter"
-    >
-      <div class="row-item" v-for="(row) of rows" :key="row.toString()">
-        <div class="cell" v-for="(cell) of row" :key="cell">{{ cell }}</div>
+    <div class="rows">
+      <div class="row-item" v-for="(row) of rows" :key="row.key" :style="rowStyle(row)">
+        <div class="cell" v-for="(cell) of row.cells" :key="cell">{{ cell }}</div>
       </div>
-    </transition-group>
+    </div>
   </div>
 </template>
 
 <script>
 import {cloneDeep} from "lodash";
-
+const waitTime = 2000;
+const transitTime = 300;
 export default {
   name: "ScrollBoard",
   props: {
@@ -27,32 +22,79 @@ export default {
   },
   data() {
     return {
-      rows: cloneDeep(this.list),
+      rows: [],
       currentIndex: 0,
-      timer: 0,
+      animationHandler: null,
       currentRow: null
     };
   },
   watch: {
     list(newVal) {
-      this.rows = cloneDeep(newVal);
+      this.setRows(newVal);
     }
   },
   methods: {
     animate() {
-      this.currentRow = this.rows.splice(0, 1)[0];
+      const animation = async () => {
+        this.currentRow = this.rows[0];
+        await new Promise(resolve => setTimeout(resolve, transitTime));
+        this.rows.splice(0, 1);
+        this.rows.push(this.currentRow);
+      }
+      this.animationHandler = setInterval(animation, waitTime);
     },
-    afterLeave(el) {
-      this.rows.push(this.currentRow);
+    rowStyle(row) {
+      const style = {
+        height: 'auto',
+        padding: '14px 0',
+        backgroundColor: row.rowIndex % 2 === 0 ? '#0a2732' : '#003b51'
+      }
+      if (this.currentRow?.key === row.key) {
+        style.padding = 0;
+        style.height = 0;
+      }
+      return style;
     },
-    afterEnter(el) {
-      this.animate();
+    setRows(list) {
+      this.reset();
+      if (list.length) {
+        this.rows = cloneDeep(list).map((cells, index) => {
+          return {
+            key: cells.toString(),
+            cells,
+            rowIndex: index
+          }
+        });
+        this.animate();
+      } else {
+        this.rows = [];
+      }
+    },
+    updateRows(rows) {
+      const currentLen = this.rows.length;
+      const mapRows = rows.map((cells, index) => {
+        return {
+          key: cells.toString(),
+          cells,
+          rowIndex: currentLen + index
+        }
+      });
+      const rowIndex = this.currentRow?.rowIndex ?? -1;
+      const spliceIndex = rowIndex >= 0 ? currentLen - rowIndex - 1 : currentLen;
+      this.rows.splice(spliceIndex, 0, ...mapRows);
+    },
+    reset() {
+      this.currentRow = null;
+      this.stopAnimation();
+    },
+    stopAnimation () {
+      if (this.animationHandler) {
+        clearInterval(this.animationHandler);
+      }
     },
   },
   mounted() {
-    if (this.rows.length) {
-      this.animate();
-    }
+    this.setRows(this.list);
   }
 };
 </script>
@@ -61,35 +103,19 @@ export default {
   .scroll-board {
     .rows {
       font-size: 18px;
-      max-height: 200px;
+      max-height: 230px;
       /*overflow-y: hidden;*/
       .row-item {
         display: flex;
-        height: 40px;
-        line-height: 40px;
-        /*padding: 14px 0;*/
+        padding: 14px 0;
         background-color: rgb(10, 39, 50);
         text-align: center;
-        &:nth-child(even) {
-          background-color: rgb(0, 59, 81);
-        }
+        transition: all .3s;
+        overflow-y: hidden;
         .cell {
           flex: 1;
         }
       }
     }
-  }
-
-  .list-enter-active, .list-leave-active {
-    /*overflow: hidden;*/
-    transition: all 1s;
-  }
-  .list-enter, .list-leave-to {
-    opacity: 0;
-  }
-
-  .list-enter-to, .list-leave {
-    /*height: 40px;*/
-    opacity: 1;
   }
 </style>
