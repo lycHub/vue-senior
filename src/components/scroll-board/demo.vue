@@ -24,6 +24,11 @@
           ['行10列1', '行10列2', '行10列3']
         ]
       }
+    },
+    mounted() {
+      setTimeout(() => {
+        // console.log('list', this.list);
+      }, 5000);
     }
   }
 </script>
