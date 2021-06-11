@@ -2,17 +2,18 @@
   <div id="app">
     <h1>{{ title }}</h1>
     <div class="test-box">
-      <picker-demo />
+
     </div>
+    <scroll-board-demo />
   </div>
 </template>
 
 <script>
-import PickerDemo from './components/picker/demo';
+import ScrollBoardDemo from './components/scroll-board/demo';
 
 export default {
   name: 'App',
-  components: { PickerDemo },
+  components: { ScrollBoardDemo },
   data() {
     return {
       title: 'Vue',
